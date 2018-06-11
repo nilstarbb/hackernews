@@ -22,6 +22,16 @@ const list = [{
   }
 ];
 
+const largeColumn = {
+  width: '40%',
+};
+const midColumn = {
+  width: '30%',
+};
+const smallColumn = {
+  width: '10%',
+};
+
 function isSearched(searchTerm) {
   return function(item) {
     return item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -59,13 +69,15 @@ class App extends Component {
   render() {
     const { list, searchTerm } = this.state;
     return (
-      <div>
-        <Search 
-          value={searchTerm}
-          onChange={this.onSearchChange}
-        >
-          Search
-        </Search>
+      <div className="page">
+        <div className="interactions">
+          <Search 
+            value={searchTerm}
+            onChange={this.onSearchChange}
+          >
+            Search
+          </Search>
+        </div>
         <Table 
           list={list}
           pattern={searchTerm}
@@ -112,17 +124,20 @@ class Table extends Component {
   render() {
     const { list, pattern, onDismiss } = this.props;
     return (
-      <div className="App">
+      <div className="table">
         {list.filter(isSearched(pattern)).map(item =>
-          <div key={item.objectID}>
-            <span>
+          <div key={item.objectID} className="table-row">
+            <span style={largeColumn}>
               <a href={item.url}>{item.title}</a>
             </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <Button onClick={()=>onDismiss(item.objectID)}>
+            <span style={midColumn}>{item.author}</span>
+            <span style={smallColumn}>{item.num_comments}</span>
+            <span style={smallColumn}>{item.points}</span>
+            <span style={smallColumn}>
+              <Button 
+                onClick={()=>onDismiss(item.objectID)}
+                className="button-inline"
+              >
                 Dismiss
               </Button>
             </span>
